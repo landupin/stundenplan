@@ -1,0 +1,13 @@
+{
+  "short_name": "Stundenplan",
+  "name": "Stundenplan",
+  "icons": [{
+    "src": "icon.png",
+    "type": "image/png",
+    "sizes": "144x144"
+  }],
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff",
+  "theme_color": "#333"
+}
