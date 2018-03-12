@@ -54,14 +54,10 @@
         let samstag = s[$.datepicker.iso8601Week( new Date() )-7];
         if (!samstag) {
             $("#samstag").remove();
-            $("td").remove(".day-5")
+            $("td").remove(".day-5");
         }
     }).catch(() => M.toast({html: 'Failed to get JSON!'}));
 </script>
-
-
-
-<!--JavaScript at end of body for optimized loading-->
 
 </body>
 </html>
