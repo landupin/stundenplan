@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="https://landupin.tk/material-icons.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta charset="UTF-8">
@@ -57,6 +56,13 @@
             $("td").remove(".day-5");
         }
     }).catch(() => M.toast({html: 'Failed to get JSON!'}));
+
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+            .register('./sw.js')
+            .then(function() { console.log('Service Worker Registered'); });
+    }
+    })();
 </script>
 
 </body>
