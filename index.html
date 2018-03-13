@@ -32,11 +32,17 @@
     if ($.datepicker.iso8601Week( new Date() )%2) {var week = "a"}
     else {var week = "b"}
 
+    $.getJSON("samstag.json", s => {
+        if (!s[$.datepicker.iso8601Week( new Date() )-7]) {
+            var samstag = false;
+        }
+    }).catch(() => M.toast({html: 'Failed to get JSON!'}));
 
     $.getJSON(week+"_stundenplan.json", c => {
         for (var d = 0; 4 > d; d++) {
             $("#app").append("<tr id='"+d+"'>");
             for (var e = 0; 6 > e; e++)
+                if (!samstag && e === 6){break}
                 if (c[e] && c[e][d]) {
                     var f = c[e][d].split("/", -1);
                     if (f.length > 2) { f[0] += " / "+f[2].toUpperCase(), f[1] += " / "+f[3], f = f.slice(0,2) }
