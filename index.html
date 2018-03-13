@@ -24,11 +24,13 @@
         <tbody id="app"></tbody>
     </table>
 </div>
+<span id="refresh" style="position: fixed; bottom: 0; width: 100%; text-align: center; padding: 0.5rem; background-color: lightgray">refresh</span>
 
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <script>
+    /* APP */
     if ($.datepicker.iso8601Week( new Date() )%2) {var week = "a"}
     else {var week = "b"}
 
@@ -63,11 +65,25 @@
         }
     }).catch(() => M.toast({html: 'Failed to get JSON!'}));
 
+    /* SERVICE WORKER */
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker
             .register('./sw.js')
             .then(function() { console.log('Service Worker Registered'); });
     }
+
+    /* DUMP CACHE ON RELOAD-BUTTON */
+    $("#refresh").click(function (){
+        caches.keys().then(function(keyList) {
+            return Promise.all(keyList.map(function(key) {
+                if (key !== cacheName && key !== dataCacheName) {
+                    console.log('[refreshing] Removing old cache', key);
+                    return caches.delete(key);
+                }
+            }));
+        });
+        location.reload();
+    });
 </script>
 
 </body>
