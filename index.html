@@ -43,15 +43,15 @@
         for (var d = 0; 4 > d; d++) {
             $("#app").append("<tr id='"+d+"'>");
             for (var e = 0; 6 > e; e++)
-                if (!samstag && e === 6){$("#samstag").remove();break}
-                if (c[e] && c[e][d]) {
+                if (!samstag && e === 6){$("#samstag").remove()}
+                else if (c[e] && c[e][d]) {
                     var f = c[e][d].split("/", -1);
                     if (f.length > 2) { f[0] += " / "+f[2].toUpperCase(), f[1] += " / "+f[3], f = f.slice(0,2) }
                     f[0] = f[0].toUpperCase(), f[1] = "<p class='grey-text lighten-2'>" + f[1], f[1] += "</p>";
 
                     console.log(f);
                     $("#"+d).append("<td class='day-"+ e+"'>" + f.join(" ") + "</td>")
-            } else $("#"+d).append("<td class='day-"+ e+"'></td>");
+                } else $("#"+d).append("<td class='day-"+ e+"'></td>");
             $("#app").append("</tr>")
         }
     }).catch(() => M.toast({html: 'Failed to get JSON!'}));
