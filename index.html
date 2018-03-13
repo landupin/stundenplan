@@ -29,8 +29,8 @@
 <script src="js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <script>
-    if ($.datepicker.iso8601Week( new Date() )%2) {var week = "a";}
-    else {var week = "b";}
+    if ($.datepicker.iso8601Week( new Date() )%2) {var week = "a"}
+    else {var week = "b"}
 
 
     $.getJSON(week+"_stundenplan.json", c => {
@@ -62,7 +62,6 @@
             .register('./sw.js')
             .then(function() { console.log('Service Worker Registered'); });
     }
-    })();
 </script>
 
 </body>
