@@ -19,7 +19,7 @@
         <th>Mittwoch</th>
         <th>Donnerstag</th>
         <th>Freitag</th>
-        <th class="day-5">Samstag</th>
+        <th id="samstag">Samstag</th>
         </thead>
         <tbody id="app"></tbody>
     </table>
@@ -32,9 +32,10 @@
     if ($.datepicker.iso8601Week( new Date() )%2) {var week = "a"}
     else {var week = "b"}
 
+    var samstag=false;
     $.getJSON("samstag.json", s => {
         if (!s[$.datepicker.iso8601Week( new Date() )-7]) {
-            var samstag = false;
+            samstag = false;
         }
     }).catch(() => M.toast({html: 'Failed to get JSON!'}));
 
@@ -42,7 +43,7 @@
         for (var d = 0; 4 > d; d++) {
             $("#app").append("<tr id='"+d+"'>");
             for (var e = 0; 6 > e; e++)
-                if (!samstag && e === 6){break}
+                if (!samstag && e === 6){$("#samstag").remove();break}
                 if (c[e] && c[e][d]) {
                     var f = c[e][d].split("/", -1);
                     if (f.length > 2) { f[0] += " / "+f[2].toUpperCase(), f[1] += " / "+f[3], f = f.slice(0,2) }
