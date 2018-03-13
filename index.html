@@ -19,7 +19,7 @@
         <th>Mittwoch</th>
         <th>Donnerstag</th>
         <th>Freitag</th>
-        <th id="samstag">Samstag</th>
+        <th class="day-5">Samstag</th>
         </thead>
         <tbody id="app"></tbody>
     </table>
@@ -50,10 +50,8 @@
     }).catch(() => M.toast({html: 'Failed to get JSON!'}));
 
     $.getJSON("samstag.json", s => {
-        let samstag = s[$.datepicker.iso8601Week( new Date() )-7];
-        if (!samstag) {
-            $("#samstag").remove();
-            $("td").remove(".day-5");
+        if (!s[$.datepicker.iso8601Week( new Date() )-7]) {
+            $(".day-5").remove();
         }
     }).catch(() => M.toast({html: 'Failed to get JSON!'}));
 
