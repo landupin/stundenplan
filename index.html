@@ -43,7 +43,7 @@
         for (var d = 0; 4 > d; d++) {
             $("#app").append("<tr id='"+d+"'>");
             for (var e = 0; 6 > e; e++)
-                if (!samstag && e === 6){$("#samstag").remove()}
+                if (!samstag && e === 5){$("#samstag").remove()}
                 else if (c[e] && c[e][d]) {
                     var f = c[e][d].split("/", -1);
                     if (f.length > 2) { f[0] += " / "+f[2].toUpperCase(), f[1] += " / "+f[3], f = f.slice(0,2) }
