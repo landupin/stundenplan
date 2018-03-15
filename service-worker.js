@@ -48,7 +48,7 @@ self.addEventListener('activate', function(e) {
     return self.clients.claim();
 });
 
-self.addEventListener('fetch', function(event) {
+self.addEventListener('fetch', function(e) {
     var dataUrl = 'https://app.cojobo.net/xml/';
     if (e.request.url.indexOf(dataUrl) > -1) {
         e.respondWith(
