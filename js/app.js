@@ -28,6 +28,8 @@ function performLogout(){
                 localStorage.clear();
                 
                 $("#error").html('');
+                $("#nav-logout").hide();
+                $("#vertretungen").html('');
                 showLogin();
             }else{
                 $("#error").html("<h3>Logout kann zurzeit nicht ausgef&uuml;hrt werden</h3><p>Versuchen Sie es sp&auml;ter erneut.</p>");
@@ -44,13 +46,11 @@ function add_logout() {
        //perform logout
        //return to stundenplan
         performLogout();
-        remove_logout();
     }).show();
 }
 
 function remove_logout() {
-    $("#nav-logout").hide();
-    $("#vertretungen").html('');
+    
 
 }
 
