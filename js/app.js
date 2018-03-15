@@ -49,11 +49,6 @@ function add_logout() {
     }).show();
 }
 
-function remove_logout() {
-    
-
-}
-
 function getDeviceName() {
     var nVer = navigator.appVersion;
     var nAgt = navigator.userAgent;
@@ -158,6 +153,7 @@ function showLogin() {
 
     $("#submit-login").click(function () {
         performLogin($('#username').val(), $('#password').val());
+        $('#password').val('');
     });
 }
 
@@ -205,6 +201,7 @@ function performLogin(username, password) {
 
         },
         fail: function () {
+            $("#loader").hide();
             $("#menu").show();
             $("#error").html("<h4>Verbindungsproblem mit Server</h4>");
         }
@@ -274,18 +271,17 @@ function loadPage() {
             });
             item += "</ul>";
             if (VertretungCounter > 0) {
-                $("#loader").hide();
                 $("#vertretungen").html('<h3>Vertretungen</h3>' + item).show();
-                $("#menu").show();
-                add_logout();
+                $("#error").html('');
             } else {
-                $("#loader").hide();
-                $("#menu").show();
-                add_logout();
                 $("#error").html("keine Vertretungen");
             }
+            $("#loader").hide();
+            $("#menu").show();
+            add_logout();
         },
         fail: function () {
+            $("#loader").hide();
             $("#menu").show();
             add_logout();
             $("#error").html("<h4>Verbindungsproblem mit Server</h4>");
