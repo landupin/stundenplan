@@ -3,15 +3,19 @@ var cacheName = 'stundenplan-cache-1';
 var filesToCache = [
     '/',
     '/index.html',
+    '/app.html',
+    '/js/app.js',
     '/js/jquery-3.3.1.min.js',
     '/js/jquery-ui.min.js',
     '/js/materialize.min.js',
     '/css/materialize.min.css',
+    '/css/material-icons.css',
     '/a_stundenplan.json',
     '/b_stundenplan.json',
     '/samstag.json',
     '/icon.png',
-    '/manifest.json'
+    '/manifest.json',
+    '/material-icons.woff2'
 ];
 
 self.addEventListener('install', function(e) {
@@ -45,9 +49,21 @@ self.addEventListener('activate', function(e) {
 });
 
 self.addEventListener('fetch', function(event) {
-    event.respondWith(
-        caches.match(event.request).then(function(response) {
-            return response || fetch(event.request);
-        })
-    );
+    var dataUrl = 'https://app.cojobo.net/xml/';
+    if (e.request.url.indexOf(dataUrl) > -1) {
+        e.respondWith(
+            caches.open(dataCacheName).then(function(cache) {
+                return fetch(e.request).then(function(response){
+                    cache.put(e.request.url, response.clone());
+                    return response;
+                });
+            })
+        );
+    } else {
+        e.respondWith(
+            caches.match(e.request).then(function (response) {
+                return response || fetch(e.request);
+            })
+        );
+    }
 });

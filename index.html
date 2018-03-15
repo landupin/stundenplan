@@ -11,65 +11,136 @@
 </head>
 
 <body>
-<div class="container">
+<noscript>You need to enable JavaScript in Your Browser to run this App</noscript>
+<div id="loader" class="valign-wrapper" style="height: 100vh;justify-content: center;">
+    <div class="valign-wrapper">
+        <div class="preloader-wrapper active">
+            <div class="spinner-layer spinner-blue">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+
+            <div class="spinner-layer spinner-red">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+
+            <div class="spinner-layer spinner-yellow">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+
+            <div class="spinner-layer spinner-green">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<main id="stundenplan" class="container" style="display: none">
     <table>
         <thead>
-        <th>Montag</th>
-        <th>Dienstag</th>
-        <th>Mittwoch</th>
-        <th>Donnerstag</th>
-        <th>Freitag</th>
-        <th id="samstag">Samstag</th>
+            <th>Montag</th>
+            <th>Dienstag</th>
+            <th>Mittwoch</th>
+            <th>Donnerstag</th>
+            <th>Freitag</th>
+            <th id="samstag">Samstag</th>
         </thead>
         <tbody id="app"></tbody>
     </table>
-</div>
+</main>
+<section id="menu" style="display: none;width: 100%; position: fixed; bottom: 0;">
+    <a class="waves-effect waves-light btn btn-large modal-trigger valign-wrapper center-align" href="#navigator" style="width: -moz-available">Menu</a>
+    <div id="navigator" class="modal bottom-sheet">
+        <div class="modal-content"><h4 style="margin-bottom: 0">Menu</h4></div>
+        <div class="modal-footer row" style="margin-bottom: 0">
+            <a id="nav-stundenplan" href="#stundenplan" class="modal-action modal-close waves-effect waves-green btn-flat col s6 center-align truncate">Stundenplan</a>
+            <a id="nav-vertretungen" href="/app.html" class="modal-action modal-close waves-effect waves-green btn-flat col s6 center-align truncate">Vertretungen</a>
+        </div>
+    </div>
+</section>
 
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <script>
-    /* APP */
-    if ($.datepicker.iso8601Week( new Date() )%2) {var week = "a"}
-    else {var week = "b"}
+    var week;
+    if ($.datepicker.iso8601Week(new Date()) % 2) {week = "a"}
+    else {week = "b"}
 
-    var samstag=false;
+    var samstag=true;
     $.getJSON("samstag.json", s => {
-        if (!s[$.datepicker.iso8601Week( new Date() )-7]) {
-            samstag = false;
-            $("#samstag").remove()
-        }
-    }).catch(() => M.toast({html: 'Failed to get JSON!'}));
-
-    $.getJSON(week+"_stundenplan.json", c => {
-        for (var d = 0; 4 > d; d++) {
-            $("#app").append("<tr id='"+d+"'>");
-            for (var e = 0; 6 > e; e++)
-                if (!samstag && e === 5){}
-                else if (c[e] && c[e][d]) {
-                    var f = c[e][d].split("/", -1);
-                    if (f.length > 2) { f[0] += " / "+f[2].toUpperCase(), f[1] += " / "+f[3], f = f.slice(0,2) }
-                    f[0] = f[0].toUpperCase(), f[1] = "<p class='grey-text lighten-2'>" + f[1], f[1] += "</p>";
-
-                    console.log(f);
-                    $("#"+d).append("<td class='day-"+ e+"'>" + f.join(" ") + "</td>")
-                } else $("#"+d).append("<td class='day-"+ e+"'></td>");
-            $("#app").append("</tr>")
-        }
-    }).catch(() => M.toast({html: 'Failed to get JSON!'}));
-
-    $.getJSON("samstag.json", s => {
-        if (!s[$.datepicker.iso8601Week( new Date() )-7]) {
-            $(".day-5").remove();
-        }
-    }).catch(() => M.toast({html: 'Failed to get JSON!'}));
-
-    /* SERVICE WORKER */
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker
-            .register('./sw.js')
-            .then(function() { console.log('Service Worker Registered'); });
+        if(!s[$.datepicker.iso8601Week(new Date()) - 7]){
+        samstag = false;
+        $("#samstag").remove()
     }
+    }).catch(() => M.toast({html: 'Failed to get JSON!'}));
+
+    $.getJSON(week + "_stundenplan.json", c => {
+        for(var d = 0;4 > d;d++){
+        $("#app").append("<tr id='" + d + "'>");
+        for (var e = 0; 6 > e; e++)
+            if (!samstag && e === 5) {}
+            else if (c[e] && c[e][d]) {
+                var f = c[e][d].split("/", -1);
+                if (f.length > 2) {
+                    f[0] += " / " + f[2].toUpperCase(), f[1] += " / " + f[3], f = f.slice(0, 2)
+                }
+                f[0] = f[0].toUpperCase(), f[1] = "<p class='grey-text lighten-2'>" + f[1], f[1] += "</p>";
+
+                console.log(f);
+                $("#" + d).append("<td class='day-" + e + "'>" + f.join(" ") + "</td>")
+            } else $("#" + d).append("<td class='day-" + e + "'></td>");
+        $("#app").append("</tr>")
+    }
+    }).catch(() => M.toast({html: 'Failed to get JSON!'}));
+
+    $.getJSON("samstag.json", s => {
+        if(!s[$.datepicker.iso8601Week(new Date()) - 7]){
+        $(".day-5").remove();
+    }
+    }).catch(() => M.toast({html: 'Failed to get JSON!'}));
+
+    /* DRAW APP ON SCREEN */
+    $("#loader").hide();
+    $("#stundenplan").show();
+    $("#menu").show();
+
+    /* INITIALIZE MENU with event listeners*/
+    M.Modal.init(document.querySelector('.modal'), {});
+    $("#vertretungen").click(function () {
+        loadVertretung()
+    });
 </script>
 
 </body>
