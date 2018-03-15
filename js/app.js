@@ -26,6 +26,8 @@ function performLogout(){
             if(logout){
                 M.toast({html: 'Logout wurde ausdeführt!'});
                 localStorage.clear();
+                
+                $("#error").html('');
                 showLogin();
             }else{
                 $("#error").html("<h3>Logout kann zurzeit nicht ausgef&uuml;hrt werden</h3><p>Versuchen Sie es sp&auml;ter erneut.</p>");
